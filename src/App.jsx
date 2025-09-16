@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { Suspense } from 'react'
 import './App.css'
-import Country from './components/countries/Country'
+import Countries from './components/countries/Countries'
+
+
+const countriesPromise = fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,flags')
+                        .then(res => res.json())
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <Country/>
+    <Suspense fallback={<h1>All country info loading......</h1>}>
+      <Countries fetchCountries = {countriesPromise}/>
+    </Suspense>
     </>
   )
 }
